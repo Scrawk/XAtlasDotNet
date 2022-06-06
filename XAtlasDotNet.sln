@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XAtlasWrapper", "XAtlasWrapper\XAtlasWrapper.vcxproj", "{2B54D80E-8014-4AA0-A883-3713E3CE5003}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XAtlasConsole", "XAtlasConsole\XAtlasConsole.vcxproj", "{82B12E0C-9128-4EB7-BA79-5680D0F873AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Debug|x64.ActiveCfg = Debug|x64
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Debug|x64.Build.0 = Debug|x64
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Debug|x86.ActiveCfg = Debug|Win32
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Debug|x86.Build.0 = Debug|Win32
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Release|x64.ActiveCfg = Release|x64
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Release|x64.Build.0 = Release|x64
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Release|x86.ActiveCfg = Release|Win32
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003}.Release|x86.Build.0 = Release|Win32
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Debug|x64.ActiveCfg = Debug|x64
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Debug|x64.Build.0 = Debug|x64
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Debug|x86.ActiveCfg = Debug|Win32
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Debug|x86.Build.0 = Debug|Win32
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Release|x64.ActiveCfg = Release|x64
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Release|x64.Build.0 = Release|x64
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Release|x86.ActiveCfg = Release|Win32
+		{82B12E0C-9128-4EB7-BA79-5680D0F873AE}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54BB4B13-17FE-4B4D-96A1-44D26163042F}
+	EndGlobalSection
+EndGlobal
