@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <time.h>
+#include <iostream>
 
 #include "stb_image_write.h"
 
@@ -191,15 +192,24 @@ static void RasterizePolygon(uint8_t* dest, int destWidth, int vertices[][2], co
 
 int main(int argc, char* argv[])
 {
-	if (argc < 2) {
+
+	std::string filename = "F:/Projects/Visual Studio Projects/XAtlasDotNet/Models/gazebo.obj";
+
+	/*
+	if (argc < 2) 
+	{
 		printf("Usage: %s input_file.obj [options]\n", argv[0]);
 		printf("  Options:\n");
 		printf("    -verbose\n");
 		return 1;
 	}
-	s_verbose = (argc >= 3 && STRICMP(argv[2], "-verbose") == 0);
+	*/
+
+	//s_verbose = (argc >= 3 && STRICMP(argv[2], "-verbose") == 0);
+	s_verbose = true;
+	
 	// Load object file.
-	printf("Loading '%s'...\n", argv[1]);
+	printf("Loading '%s'...\n", filename.c_str());
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 	std::string err;
@@ -209,7 +219,7 @@ int main(int argc, char* argv[])
 	flags = tinyobj::triangulation;
 #endif
 
-	if (!tinyobj::LoadObj(shapes, materials, err, argv[1], NULL, flags)) {
+	if (!tinyobj::LoadObj(shapes, materials, err, filename.c_str(), NULL, flags)) {
 		printf("Error: %s\n", err.c_str());
 		return EXIT_FAILURE;
 	}
@@ -228,7 +238,9 @@ int main(int argc, char* argv[])
 	xatlas::SetProgressCallback(atlas, ProgressCallback, &stopwatch);
 	// Add meshes to atlas.
 	uint32_t totalVertices = 0, totalFaces = 0;
-	for (int i = 0; i < (int)shapes.size(); i++) {
+
+	for (int i = 0; i < (int)shapes.size(); i++) 
+	{
 		const tinyobj::mesh_t& objMesh = shapes[i].mesh;
 		xatlas::MeshDecl meshDecl;
 		meshDecl.vertexCount = (uint32_t)objMesh.positions.size() / 3;

@@ -158,6 +158,11 @@
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="xatlas.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XAtlasWrapper\XAtlasWrapper.vcxproj">
+      <Project>{2b54d80e-8014-4aa0-a883-3713e3ce5003}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
