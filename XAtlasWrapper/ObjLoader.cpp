@@ -8,24 +8,27 @@ std::vector<tinyobj::shape_t> _shapes;
 
 std::vector<tinyobj::material_t> _materials;
 
-void XAtlas_ClearBuffers()
+void ObjLoader_ClearBuffers()
 {
     _shapes.clear();
     _materials.clear();
 }
 
-int XAtlas_GetShapeCount()
+int ObjLoader_GetShapeCount()
 {
     return (int)_shapes.size();
 }
 
-int XAtlas_GetMaterialCount()
+int ObjLoader_GetMaterialCount()
 {
     return (int)_materials.size();
 }
 
-void XAtlas_GetShape(int index, Shape &shape)
+void ObjLoader_GetShape(int index, Shape &shape)
 {
+    if (index < 0 || index >= _shapes.size())
+        return;
+
     auto _shape = _shapes[index];
 
     shape.mesh.positions = (int)_shape.mesh.positions.size();
@@ -37,42 +40,72 @@ void XAtlas_GetShape(int index, Shape &shape)
     shape.mesh.tags = (int)_shape.mesh.tags.size();
 }
 
-float XAtlas_GetMeshPosition(int mesh, int index)
+float ObjLoader_GetMeshPosition(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.positions.size())
+        return 0;
+
     return _shapes[mesh].mesh.positions[index];
 }
 
-float XAtlas_GetMeshNormal(int mesh, int index)
+float ObjLoader_GetMeshNormal(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.normals.size())
+        return 0;
+
     return _shapes[mesh].mesh.normals[index];
 }
 
-float XAtlas_GetMeshUV(int mesh, int index)
+float ObjLoader_GetMeshTexcoord(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.texcoords.size())
+        return 0;
+
     return _shapes[mesh].mesh.texcoords[index];
 }
 
-int XAtlas_GetMeshIndice(int mesh, int index)
+int ObjLoader_GetMeshIndice(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.indices.size())
+        return NULL_INDEX;
+
     return _shapes[mesh].mesh.indices[index];
 }
 
-int XAtlas_GetMeshVertex(int mesh, int index)
+int ObjLoader_GetMeshVertex(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.num_vertices.size())
+        return NULL_INDEX;
+
     return _shapes[mesh].mesh.num_vertices[index];
 }
 
-int XAtlas_GetMeshMateral(int mesh, int index)
+int ObjLoader_GetMeshMateral(int mesh, int index)
 {
+    if (mesh < 0 || index < 0 ||
+        mesh >= _shapes.size() ||
+        index >= _shapes[mesh].mesh.material_ids.size())
+        return NULL_INDEX;
+
     return _shapes[mesh].mesh.material_ids[index];
 }
 
-BOOL XAtlas_LoadObj(
+BOOL ObjLoader_LoadObj(
     const char* filename,
     const char* mtl_basepath,
     unsigned int flags)
 {
-    XAtlas_ClearBuffers();
+    ObjLoader_ClearBuffers();
 
     std::string err;
 
@@ -86,6 +119,36 @@ BOOL XAtlas_LoadObj(
 
     //std::cout << "Load obj" << std::endl;
     //std::cout << "err " << err << std::endl;
+    //std::cout << "shapes " << _shapes.size() << std::endl;
+    //std::cout << "mats " << _materials.size() << std::endl;
 
     return success;
+}
+
+xatlas::MeshDecl* ObjLoader_CreateMeshDecl(int index)
+{
+    if (index < 0 || index >= _shapes.size())
+        return nullptr;
+
+    xatlas::MeshDecl* meshDecl = new xatlas::MeshDecl();
+    const tinyobj::mesh_t& objMesh = _shapes[index].mesh;
+
+    meshDecl->vertexCount = (uint32_t)objMesh.positions.size() / 3;
+    meshDecl->vertexPositionData = objMesh.positions.data();
+    meshDecl->vertexPositionStride = sizeof(float) * 3;
+
+    if (!objMesh.normals.empty()) {
+        meshDecl->vertexNormalData = objMesh.normals.data();
+        meshDecl->vertexNormalStride = sizeof(float) * 3;
+    }
+    if (!objMesh.texcoords.empty()) {
+        meshDecl->vertexUvData = objMesh.texcoords.data();
+        meshDecl->vertexUvStride = sizeof(float) * 2;
+    }
+
+    meshDecl->indexCount = (uint32_t)objMesh.indices.size();
+    meshDecl->indexData = objMesh.indices.data();
+    meshDecl->indexFormat = xatlas::IndexFormat::UInt32;
+
+    return meshDecl;
 }

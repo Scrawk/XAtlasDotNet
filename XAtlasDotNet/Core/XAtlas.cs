@@ -11,107 +11,48 @@ namespace XAtlasDotNet.Core
 {
     public static class XAtlas
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        private const string DLL_NAME = "XAtlasWrapper.dll";
+        public const string DLL_NAME = "XAtlasWrapper.dll";
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private const CallingConvention CDECL = CallingConvention.Cdecl;
+        public const CallingConvention CDECL = CallingConvention.Cdecl;
 
-        public static void ClearBuffers()
+        public static void Destroy()
         {
-            XAtlas_ClearBuffers();
+            XAtlas_Destroy();
         }
 
-        public static int GetShapeCount()
+        public static void Create()
         {
-            return XAtlas_GetShapeCount();
+            XAtlas_Create();
         }
 
-        public static int GetMaterialCount()
+        public static MESH_ERROR AddMesh(int index)
         {
-            return XAtlas_GetMaterialCount();
+            return XAtlas_AddMesh(index);
         }
 
-        public static void GetShape(int index, out Shape shape)
+        public static void Generate()
         {
-            XAtlas_GetShape(index, out shape);  
+            XAtlas_Generate();
         }
 
-        public static bool LoadObj(
-            string filename,
-            uint flags)
+        public static AtlasParams GetAtlasParams()
         {
-            return XAtlas_LoadObj(filename.ToCharArray(), null, flags);
-        }
-
-        public static float GetMeshPosition(int mesh, int index)
-        {
-            return XAtlas_GetMeshPosition(mesh, index);
-        }
-
-        public static float GetMeshNormal(int mesh, int index)
-        {
-            return XAtlas_GetMeshNormal(mesh, index);
-        }
-
-        public static float GetMeshUV(int mesh, int index)
-        {
-            return XAtlas_GetMeshUV(mesh, index);
-        }
-
-        public static int GetMeshIndice(int mesh, int index)
-        {
-            return XAtlas_GetMeshIndice(mesh, index);
-        }
-
-        public static int GetMeshVertex(int mesh, int index)
-        {
-            return XAtlas_GetMeshVertex(mesh, index);
-        }
-
-        public static int GetMeshMaterial(int mesh, int index)
-        {
-            return XAtlas_GetMeshMaterail(mesh, index);
+            return XAtlas_GetAtlasParams();  
         }
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern void XAtlas_ClearBuffers();
+        private static extern void XAtlas_Destroy();
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int XAtlas_GetShapeCount();
+        private static extern void XAtlas_Create();
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int XAtlas_GetMaterialCount();
+        private static extern MESH_ERROR XAtlas_AddMesh(int index);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern void XAtlas_GetShape(int index, [Out] out Shape shape);
+        private static extern void XAtlas_Generate();
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern float XAtlas_GetMeshPosition(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern float XAtlas_GetMeshNormal(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern float XAtlas_GetMeshUV(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int XAtlas_GetMeshIndice(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int XAtlas_GetMeshVertex(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int XAtlas_GetMeshMaterail(int mesh, int index);
-
-        [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern bool XAtlas_LoadObj(
-        char[] filename,
-        char[] mtl_basepath,
-        uint flags);
+        private static extern AtlasParams XAtlas_GetAtlasParams();
     }
 }

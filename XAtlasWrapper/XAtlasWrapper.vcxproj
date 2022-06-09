@@ -124,6 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,6 +163,7 @@
     <ClInclude Include="Structs.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="xatlas.h" />
+    <ClInclude Include="XAtlasCore.h" />
     <ClInclude Include="XAtlasWrapper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +180,7 @@
     <ClCompile Include="stb_image_write.c" />
     <ClCompile Include="tiny_obj_loader.cpp" />
     <ClCompile Include="xatlas.cpp" />
+    <ClCompile Include="XAtlasCore.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

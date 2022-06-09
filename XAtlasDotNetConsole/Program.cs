@@ -4,26 +4,28 @@ using System.Runtime.InteropServices;
 
 using XAtlasDotNet.Core;
 
+
 string filename = "F:/Projects/Visual Studio Projects/XAtlasDotNet/Models/gazebo.obj";
-uint flags = 1;
+LOAD_FLAGS flags = LOAD_FLAGS.TRIANGULATION;
 
-bool b = XAtlas.LoadObj(filename, flags);
+bool b = ObjLoader.LoadObj(filename, flags);
 
-int shape_count = XAtlas.GetShapeCount();
+int shape_count = ObjLoader.GetShapeCount();
 
 Shape shape;
-XAtlas.GetShape(0, out shape);
+ObjLoader.GetShape(0, out shape);
 
-Console.WriteLine(shape.mesh);
+XAtlas.Create();
 
-for(int i = 0; i < shape.mesh.positions; i++)
-{
-    //Console.WriteLine(XAtlas.GetMeshPosition(0, i));
-    //Console.WriteLine(XAtlas.GetMeshNormal(0, i));
-    //Console.WriteLine(XAtlas.GetMeshUV(0, i));
-}
+var error_code = XAtlas.AddMesh(0);
 
+Console.WriteLine("Error code = " + error_code);
 
+XAtlas.Generate();
+
+Console.WriteLine(XAtlas.GetAtlasParams());
+
+XAtlas.Destroy();
 
 /*
 Loading 'F:/Projects/Visual Studio Projects/XAtlasDotNet/Models/gazebo.obj'...

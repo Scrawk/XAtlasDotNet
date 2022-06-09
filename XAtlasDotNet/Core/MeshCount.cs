@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace XAtlasDotNet.Core
 {
-    public struct Mesh
+    public struct MeshCount
     {
         public int positions;
         public int normals;
@@ -15,7 +15,7 @@ namespace XAtlasDotNet.Core
 
         public override string ToString()
         {
-            return string.Format("[Mesh: positions={0}, normals={1}, texcoords={2}, indices={3}, vertices={4}, materials={5}, tags={6}]",
+            return string.Format("[MeshCount: positions={0}, normals={1}, texcoords={2}, indices={3}, vertices={4}, materials={5}, tags={6}]",
                positions, normals, texcoords, indices, vertexs, materials, tags);
         }
     }

@@ -267,3 +267,5 @@ const char *StringForEnum(ProgressCategory category);
 } // namespace xatlas
 
 #endif // XATLAS_H
+
+

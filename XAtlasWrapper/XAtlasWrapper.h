@@ -8,3 +8,5 @@
 
 #include <windows.h>
 #include <cstdbool>
+
+#define NULL_INDEX -1

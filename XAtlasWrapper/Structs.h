@@ -60,7 +60,7 @@ struct Tag
     std::vector<std::string> stringValues;
 };
 
-struct Mesh 
+struct MeshCount 
 {
     int positions;
     int normals;
@@ -74,5 +74,15 @@ struct Mesh
 struct Shape 
 {
     //std::string name;
-    Mesh mesh;
+    MeshCount mesh;
+};
+
+struct AtlasParams
+{
+    int MeshCount;
+    int Width;
+    int Height;
+    int AtlasCount;
+    int ChartCount;
+    float TexelsPerUnit;
 };

@@ -5,6 +5,6 @@ namespace XAtlasDotNet.Core
 {
     public struct Shape
     {
-        public Mesh mesh;
+        public MeshCount mesh;
     }
 }
