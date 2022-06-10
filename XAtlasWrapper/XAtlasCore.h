@@ -17,5 +17,13 @@ extern "C"
 
 	XATLAS_WRAPPER_API AtlasParams XAtlas_GetAtlasParams();
 
+	XATLAS_WRAPPER_API BOOL XAtlas_SaveAllMeshsObj(const char* filename);
+
+	XATLAS_WRAPPER_API BOOL XAtlas_SaveMeshObj(int index, const char* filename);
+
+	XATLAS_WRAPPER_API BOOL XAtlas_SaveChartImages(const char* filename);
+
+	XATLAS_WRAPPER_API BOOL XAtlas_SaveMeshImages(const char* filename);
+
 }
 

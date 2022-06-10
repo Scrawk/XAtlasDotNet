@@ -36,3 +36,5 @@ extern "C"
 }
 
 xatlas::MeshDecl* ObjLoader_CreateMeshDecl(int index);
+
+tinyobj::shape_t* ObjLoader_GetShape(int index);

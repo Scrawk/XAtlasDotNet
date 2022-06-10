@@ -40,6 +40,14 @@ void ObjLoader_GetShape(int index, Shape &shape)
     shape.mesh.tags = (int)_shape.mesh.tags.size();
 }
 
+tinyobj::shape_t* ObjLoader_GetShape(int index)
+{
+    if (index < 0 || index >= _shapes.size())
+        return nullptr;
+
+    return &_shapes[index];
+}
+
 float ObjLoader_GetMeshPosition(int mesh, int index)
 {
     if (mesh < 0 || index < 0 ||
@@ -117,11 +125,6 @@ BOOL ObjLoader_LoadObj(
         mtl_basepath,
         flags);
 
-    //std::cout << "Load obj" << std::endl;
-    //std::cout << "err " << err << std::endl;
-    //std::cout << "shapes " << _shapes.size() << std::endl;
-    //std::cout << "mats " << _materials.size() << std::endl;
-
     return success;
 }
 
@@ -152,3 +155,5 @@ xatlas::MeshDecl* ObjLoader_CreateMeshDecl(int index)
 
     return meshDecl;
 }
+
+

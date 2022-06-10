@@ -11,9 +11,11 @@ namespace XAtlasDotNet.Core
 {
     public static class XAtlas
     {
-        public const string DLL_NAME = "XAtlasWrapper.dll";
+        private const string DLL_NAME = "XAtlasWrapper.dll";
 
-        public const CallingConvention CDECL = CallingConvention.Cdecl;
+        private const CallingConvention CDECL = CallingConvention.Cdecl;
+
+        private const UnmanagedType LPSTR = UnmanagedType.LPStr;
 
         public static void Destroy()
         {
@@ -40,6 +42,26 @@ namespace XAtlasDotNet.Core
             return XAtlas_GetAtlasParams();  
         }
 
+        public static bool SaveAllMeshsObj(string filename)
+        {
+            return XAtlas_SaveAllMeshsObj(filename); 
+        }
+
+        public static bool SaveMeshObj(int index, string filename)
+        {
+            return XAtlas_SaveMeshObj(index, filename);
+        }
+
+        public static bool SaveChartImages(string filename)
+        {
+            return XAtlas_SaveChartImages(filename);
+        }
+
+        public static bool SaveMeshImages(string filename)
+        {
+            return XAtlas_SaveMeshImages(filename);
+        }
+
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void XAtlas_Destroy();
 
@@ -54,5 +76,17 @@ namespace XAtlasDotNet.Core
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern AtlasParams XAtlas_GetAtlasParams();
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool XAtlas_SaveAllMeshsObj([MarshalAs(LPSTR)] string filename);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool XAtlas_SaveMeshObj(int index, [MarshalAs(LPSTR)] string filename);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool XAtlas_SaveChartImages([MarshalAs(LPSTR)] string filename);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool XAtlas_SaveMeshImages([MarshalAs(LPSTR)] string filename);
     }
 }

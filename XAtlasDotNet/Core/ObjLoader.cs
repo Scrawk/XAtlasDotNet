@@ -8,6 +8,11 @@ namespace XAtlasDotNet.Core
 {
     public static class ObjLoader
     {
+        private const string DLL_NAME = "XAtlasWrapper.dll";
+
+        private const CallingConvention CDECL = CallingConvention.Cdecl;
+
+        private const UnmanagedType LPSTR = UnmanagedType.LPStr;
 
         public static void ClearBuffers()
         {
@@ -34,8 +39,7 @@ namespace XAtlasDotNet.Core
             LOAD_FLAGS flags)
         {
             flags |= LOAD_FLAGS.TRIANGULATION;
-
-            return ObjLoader_LoadObj(filename.ToCharArray(), null, (uint)flags);
+            return ObjLoader_LoadObj(filename, null, (uint)flags);
         }
 
         public static float GetMeshPosition(int mesh, int index)
@@ -68,40 +72,40 @@ namespace XAtlasDotNet.Core
             return ObjLoader_GetMeshMaterail(mesh, index);
         }
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void ObjLoader_ClearBuffers();
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetShapeCount();
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetMaterialCount();
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void ObjLoader_GetShape(int index, [Out] out Shape shape);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern float ObjLoader_GetMeshPosition(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern float ObjLoader_GetMeshNormal(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern float ObjLoader_GetMeshTexcoord(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetMeshIndice(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetMeshVertex(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetMeshMaterail(int mesh, int index);
 
-        [DllImport(XAtlas.DLL_NAME, CallingConvention = XAtlas.CDECL)]
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern bool ObjLoader_LoadObj(
-        char[] filename,
-        char[] mtl_basepath,
+        [MarshalAs(LPSTR)] string filename,
+        [MarshalAs(LPSTR)] string mtl_basepath,
         uint flags);
     }
 }

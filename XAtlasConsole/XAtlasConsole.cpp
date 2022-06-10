@@ -354,6 +354,7 @@ int main(int argc, char* argv[])
 		}
 		fclose(file);
 	}
+
 	if (atlas->width > 0 && atlas->height > 0) {
 		printf("Rasterizing result...\n");
 		// Dump images.

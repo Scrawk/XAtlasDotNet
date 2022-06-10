@@ -5,10 +5,14 @@ using System.Runtime.InteropServices;
 using XAtlasDotNet.Core;
 
 
-string filename = "F:/Projects/Visual Studio Projects/XAtlasDotNet/Models/gazebo.obj";
+string dir1 = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
+string dir2 = "F:/Projects/Visual Studio Projects/XAtlasDotNet/XAtlasDotNetConsole/bin/Release/net6.0/";
+
+string filename = dir1 + "Models/gazebo.obj";
 LOAD_FLAGS flags = LOAD_FLAGS.TRIANGULATION;
 
-bool b = ObjLoader.LoadObj(filename, flags);
+bool load_success = ObjLoader.LoadObj(filename, flags);
+Console.WriteLine("load_success = " + load_success);
 
 int shape_count = ObjLoader.GetShapeCount();
 
@@ -25,35 +29,14 @@ XAtlas.Generate();
 
 Console.WriteLine(XAtlas.GetAtlasParams());
 
+bool save_obj_success = XAtlas.SaveAllMeshsObj(dir2 + "example_mesh.obj");
+Console.WriteLine("save_obj_success = " + save_obj_success);
+
+bool save_chart_success = XAtlas.SaveChartImages(dir2 + "example_chart.tga");
+Console.WriteLine("save_chart_success = " + save_chart_success);
+
+bool save_mesh_success = XAtlas.SaveMeshImages(dir2 + "example_tri.tga");
+Console.WriteLine("save_mesh_success = " + save_mesh_success);
+
+ObjLoader.ClearBuffers();
 XAtlas.Destroy();
-
-/*
-Loading 'F:/Projects/Visual Studio Projects/XAtlasDotNet/Models/gazebo.obj'...
-   1 shapes
-Adding mesh 0: 1568 vertices, 730 triangles
-   1568 total vertices
-   730 total faces
-Generating atlas
-Computing charts
-   332 charts
-      119 planar, 213 ortho, 0 LSCM, 0 piecewise
-Packing 332 charts
-   Estimating texelsPerUnit as 60.5763
-   975x1013 resolution
-   85.394188% utilization
-Building output meshes
-   Mesh 0: 1568 vertices, 730 triangles, 332 charts
-   332 charts
-   1 atlases
-      0: 85.39 % utilization
-   975x1013 resolution
-   1568 total vertices
-0.03 seconds (33 ms) elapsed total
-Writing 'example_output.obj'...
-Rasterizing result...
-Writing 'example_tris00.tga'...
-Writing 'example_charts00.tga'...
-Done
-*/
-
-

@@ -6,10 +6,16 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XAtlasWrapper", "XAtlasWrapper\XAtlasWrapper.vcxproj", "{2B54D80E-8014-4AA0-A883-3713E3CE5003}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XAtlasConsole", "XAtlasConsole\XAtlasConsole.vcxproj", "{82B12E0C-9128-4EB7-BA79-5680D0F873AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{702F60B0-0C25-4596-819E-0B8AC01392E9} = {702F60B0-0C25-4596-819E-0B8AC01392E9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAtlasDotNet", "XAtlasDotNet\XAtlasDotNet.csproj", "{702F60B0-0C25-4596-819E-0B8AC01392E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XAtlasDotNet", "XAtlasDotNet\XAtlasDotNet.csproj", "{702F60B0-0C25-4596-819E-0B8AC01392E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2B54D80E-8014-4AA0-A883-3713E3CE5003} = {2B54D80E-8014-4AA0-A883-3713E3CE5003}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAtlasDotNetConsole", "XAtlasDotNetConsole\XAtlasDotNetConsole.csproj", "{D6394581-470A-45B8-A035-EF7A22BBCBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XAtlasDotNetConsole", "XAtlasDotNetConsole\XAtlasDotNetConsole.csproj", "{D6394581-470A-45B8-A035-EF7A22BBCBAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{392E1BCD-9F9E-4FD3-B470-5D963F957225}"
 	ProjectSection(SolutionItems) = preProject
