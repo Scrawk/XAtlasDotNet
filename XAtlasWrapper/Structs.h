@@ -5,6 +5,35 @@
 
 #include "tiny_obj_loader.h"
 
+
+struct MeshCount 
+{
+    int positions;
+    int normals;
+    int texcoords;
+    int indices;
+    int vertices;
+    int materials;  
+    int tags;
+};
+
+struct Shape 
+{
+    //std::string name;
+    MeshCount mesh;
+};
+
+struct AtlasParams
+{
+    int MeshCount;
+    int Width;
+    int Height;
+    int AtlasCount;
+    int ChartCount;
+    float TexelsPerUnit;
+};
+
+/*
 struct Material
 {
     std::string name;
@@ -46,7 +75,7 @@ struct Material
         ior = mat.ior;
         dissolve = mat.dissolve;
         illum = mat.illum;
-        
+
     }
 
 };
@@ -59,30 +88,4 @@ struct Tag
     std::vector<float> floatValues;
     std::vector<std::string> stringValues;
 };
-
-struct MeshCount 
-{
-    int positions;
-    int normals;
-    int texcoords;
-    int indices;
-    int vertices;
-    int materials;   
-    int tags;
-};
-
-struct Shape 
-{
-    //std::string name;
-    MeshCount mesh;
-};
-
-struct AtlasParams
-{
-    int MeshCount;
-    int Width;
-    int Height;
-    int AtlasCount;
-    int ChartCount;
-    float TexelsPerUnit;
-};
+*/

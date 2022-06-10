@@ -8,6 +8,14 @@ std::vector<tinyobj::shape_t> _shapes;
 
 std::vector<tinyobj::material_t> _materials;
 
+bool IsNotInShapeBounds(int index)
+{
+    if (index < 0 || index >= _shapes.size())
+        return true;
+    else
+        return false;
+}
+
 void ObjLoader_ClearBuffers()
 {
     _shapes.clear();
@@ -26,7 +34,7 @@ int ObjLoader_GetMaterialCount()
 
 void ObjLoader_GetShape(int index, Shape &shape)
 {
-    if (index < 0 || index >= _shapes.size())
+    if (IsNotInShapeBounds(index))
         return;
 
     auto _shape = _shapes[index];
@@ -42,71 +50,239 @@ void ObjLoader_GetShape(int index, Shape &shape)
 
 tinyobj::shape_t* ObjLoader_GetShape(int index)
 {
-    if (index < 0 || index >= _shapes.size())
+    if (IsNotInShapeBounds(index))
         return nullptr;
 
     return &_shapes[index];
 }
 
+//-----------------------------------Positions------------------------------------------------------------------------//
+
 float ObjLoader_GetMeshPosition(int mesh, int index)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.positions.size())
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.positions.size())
         return 0;
 
     return _shapes[mesh].mesh.positions[index];
 }
 
+BOOL ObjLoader_GetMeshPositions(int mesh_index, float* positions, int count)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    const tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (count > mesh.positions.size())
+        return FALSE;
+
+    for (int i = 0; i < count; i++)
+        positions[i] = mesh.positions[i];
+
+    return TRUE;
+}
+
+BOOL ObjLoader_SetMeshPositions(int mesh_index, float* positions, int count, BOOL append)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if(!append)
+        mesh.positions.clear();
+
+    for (int i = 0; i < count; i++)
+        mesh.positions.push_back(positions[i]);
+
+    return TRUE;
+}
+
+//-----------------------------------Normals------------------------------------------------------------------------//
+
 float ObjLoader_GetMeshNormal(int mesh, int index)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.normals.size())
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.normals.size())
         return 0;
 
     return _shapes[mesh].mesh.normals[index];
 }
 
+BOOL ObjLoader_GetMeshNormals(int mesh_index, float* normals, int count)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    const tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (count > mesh.normals.size())
+        return FALSE;
+
+    for (int i = 0; i < count; i++)
+        normals[i] = mesh.normals[i];
+
+    return TRUE;
+}
+
+BOOL ObjLoader_SetMeshNormals(int mesh_index, float* normals, int count, BOOL append)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (!append)
+        mesh.normals.clear();
+
+    for (int i = 0; i < count; i++)
+        mesh.normals.push_back(normals[i]);
+
+    return TRUE;
+}
+
+//-----------------------------------Texcoords------------------------------------------------------------------------//
+
 float ObjLoader_GetMeshTexcoord(int mesh, int index)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.texcoords.size())
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.texcoords.size())
         return 0;
 
     return _shapes[mesh].mesh.texcoords[index];
 }
 
-int ObjLoader_GetMeshIndice(int mesh, int index)
+BOOL ObjLoader_GetMeshTexcoords(int mesh_index, float* texcoords, int count)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.indices.size())
-        return NULL_INDEX;
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    const tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (count > mesh.texcoords.size())
+        return FALSE;
+
+    for (int i = 0; i < count; i++)
+        texcoords[i] = mesh.texcoords[i];
+
+    return TRUE;
+}
+
+BOOL ObjLoader_SetMeshTexcoords(int mesh_index, float* texcoords, int count, BOOL append)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (!append)
+        mesh.texcoords.clear();
+
+    for (int i = 0; i < count; i++)
+        mesh.texcoords.push_back(texcoords[i]);
+
+    return TRUE;
+}
+
+//-----------------------------------Indices------------------------------------------------------------------------//
+
+unsigned int ObjLoader_GetMeshIndice(int mesh, int index)
+{
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.indices.size())
+        return 0;
 
     return _shapes[mesh].mesh.indices[index];
 }
 
-int ObjLoader_GetMeshVertex(int mesh, int index)
+BOOL ObjLoader_GetMeshIndices(int mesh_index, unsigned int* indices, int count)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.num_vertices.size())
-        return NULL_INDEX;
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    const tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (count > mesh.indices.size())
+        return FALSE;
+
+    for (int i = 0; i < count; i++)
+        indices[i] = mesh.indices[i];
+
+    return TRUE;
+}
+
+BOOL ObjLoader_SetMeshIndices(int mesh_index, unsigned int* indices, int count, BOOL append)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (!append)
+        mesh.indices.clear();
+
+    for (int i = 0; i < count; i++)
+        mesh.indices.push_back(indices[i]);
+
+    return TRUE;
+}
+
+//-----------------------------------Vertices------------------------------------------------------------------------//
+
+unsigned char ObjLoader_GetMeshVertex(int mesh, int index)
+{
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.num_vertices.size())
+        return 0;
 
     return _shapes[mesh].mesh.num_vertices[index];
 }
 
+BOOL ObjLoader_GetMeshVertices(int mesh_index, unsigned char* vertices, int count)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    const tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (count > mesh.num_vertices.size())
+        return FALSE;
+
+    for (int i = 0; i < count; i++)
+        vertices[i] = mesh.num_vertices[i];
+
+    return TRUE;
+}
+
+BOOL ObjLoader_SetMeshVertices(int mesh_index, unsigned char* vertices, int count, BOOL append)
+{
+    if (IsNotInShapeBounds(mesh_index))
+        return FALSE;
+
+    tinyobj::mesh_t& mesh = _shapes[mesh_index].mesh;
+
+    if (!append)
+        mesh.num_vertices.clear();
+
+    for (int i = 0; i < count; i++)
+        mesh.num_vertices.push_back(vertices[i]);
+
+    return TRUE;
+}
+
+//-----------------------------------Materials------------------------------------------------------------------------//
+
 int ObjLoader_GetMeshMateral(int mesh, int index)
 {
-    if (mesh < 0 || index < 0 ||
-        mesh >= _shapes.size() ||
-        index >= _shapes[mesh].mesh.material_ids.size())
+    if (IsNotInShapeBounds(mesh) ||
+        index < 0 || index >= _shapes[mesh].mesh.material_ids.size())
         return NULL_INDEX;
 
     return _shapes[mesh].mesh.material_ids[index];
 }
+
+//-------------------------------------------------------------------------------------------------------------------//
 
 BOOL ObjLoader_LoadObj(
     const char* filename,

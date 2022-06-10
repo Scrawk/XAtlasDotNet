@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Linq;
 
-[assembly: InternalsVisibleTo("OpenGLDotNetConsole")]
-[assembly: InternalsVisibleTo("OpenGLDotNetTest")]
+[assembly: InternalsVisibleTo("XAtlasDotNetConsole")]
+[assembly: InternalsVisibleTo("XAtlasDotNetTest")]
 
 namespace XAtlasDotNet.Core
 {

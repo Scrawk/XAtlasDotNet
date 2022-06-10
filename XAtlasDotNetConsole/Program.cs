@@ -5,14 +5,27 @@ using System.Runtime.InteropServices;
 using XAtlasDotNet.Core;
 
 
-string dir1 = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
-string dir2 = "F:/Projects/Visual Studio Projects/XAtlasDotNet/XAtlasDotNetConsole/bin/Release/net6.0/";
+string dir = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
+string filename = dir + "Models/cube.obj";
 
-string filename = dir1 + "Models/gazebo.obj";
-LOAD_FLAGS flags = LOAD_FLAGS.TRIANGULATION;
-
-bool load_success = ObjLoader.LoadObj(filename, flags);
+bool load_success = ObjLoader.LoadObj(filename);
 Console.WriteLine("load_success = " + load_success);
+
+Shape shape;
+ObjLoader.GetShape(0, out shape);
+
+Console.WriteLine("shape = " + shape);
+Console.WriteLine();
+
+float[] set_positions = new float[shape.mesh.positions];
+bool set_pos_success = ObjLoader.SetMeshPositions(0, set_positions, set_positions.Length);
+float[] get_positions = new float[shape.mesh.positions];
+bool get_pos_success = ObjLoader.SetMeshPositions(0, get_positions, get_positions.Length);
+
+Console.WriteLine("get_pos_success = " + get_pos_success);
+Console.WriteLine("set_pos_success = " + set_pos_success);
+
+/*
 
 int shape_count = ObjLoader.GetShapeCount();
 
@@ -29,14 +42,15 @@ XAtlas.Generate();
 
 Console.WriteLine(XAtlas.GetAtlasParams());
 
-bool save_obj_success = XAtlas.SaveAllMeshsObj(dir2 + "example_mesh.obj");
+bool save_obj_success = XAtlas.SaveAllMeshsObj("example_mesh.obj");
 Console.WriteLine("save_obj_success = " + save_obj_success);
 
-bool save_chart_success = XAtlas.SaveChartImages(dir2 + "example_chart.tga");
+bool save_chart_success = XAtlas.SaveChartImages("example_chart.tga");
 Console.WriteLine("save_chart_success = " + save_chart_success);
 
-bool save_mesh_success = XAtlas.SaveMeshImages(dir2 + "example_tri.tga");
+bool save_mesh_success = XAtlas.SaveMeshImages("example_tri.tga");
 Console.WriteLine("save_mesh_success = " + save_mesh_success);
 
 ObjLoader.ClearBuffers();
 XAtlas.Destroy();
+*/
