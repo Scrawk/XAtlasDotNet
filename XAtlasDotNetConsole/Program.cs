@@ -6,10 +6,12 @@ using XAtlasDotNet.Core;
 
 
 string dir = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
-string filename = dir + "Models/cube.obj";
+string filename = dir + "Models/elephant.obj";
 
 bool load_success = ObjLoader.LoadObj(filename);
 Console.WriteLine("load_success = " + load_success);
+
+int shape_count = ObjLoader.GetShapeCount();
 
 Shape shape;
 ObjLoader.GetShape(0, out shape);
@@ -17,25 +19,9 @@ ObjLoader.GetShape(0, out shape);
 Console.WriteLine("shape = " + shape);
 Console.WriteLine();
 
-float[] set_positions = new float[shape.mesh.positions];
-bool set_pos_success = ObjLoader.SetMeshPositions(0, set_positions, set_positions.Length);
-float[] get_positions = new float[shape.mesh.positions];
-bool get_pos_success = ObjLoader.SetMeshPositions(0, get_positions, get_positions.Length);
-
-Console.WriteLine("get_pos_success = " + get_pos_success);
-Console.WriteLine("set_pos_success = " + set_pos_success);
-
-/*
-
-int shape_count = ObjLoader.GetShapeCount();
-
-Shape shape;
-ObjLoader.GetShape(0, out shape);
-
 XAtlas.Create();
 
 var error_code = XAtlas.AddMesh(0);
-
 Console.WriteLine("Error code = " + error_code);
 
 XAtlas.Generate();
@@ -53,4 +39,4 @@ Console.WriteLine("save_mesh_success = " + save_mesh_success);
 
 ObjLoader.ClearBuffers();
 XAtlas.Destroy();
-*/
+

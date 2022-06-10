@@ -82,6 +82,13 @@ namespace XAtlasDotNetTest.Core
             ObjLoader.LoadObj(filename);
 
             ObjLoader.GetShape(0, out shape);
+
+            //pos = 72
+            //norm=72
+            //uv= 48
+            //ind=36
+            //ver=12
+            //mat=12
         }
 
         [TestCleanup]

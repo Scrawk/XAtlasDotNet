@@ -29,6 +29,11 @@ namespace XAtlasDotNet.Core
             return ObjLoader_GetMaterialCount();
         }
 
+        public static void AddShape()
+        {
+            ObjLoader_AddShape();
+        }
+
         public static void GetShape(int index, out Shape shape)
         {
             ObjLoader_GetShape(index, out shape);  
@@ -127,9 +132,19 @@ namespace XAtlasDotNet.Core
 
         //-----------------------------------Materials------------------------------------------------------------------------//
 
-        public static int GetMeshMaterial(int mesh_index, int index)
+        public static int GetMeshMaterialId(int mesh_index, int index)
         {
-            return ObjLoader_GetMeshMaterail(mesh_index, index);
+            return ObjLoader_GetMeshMaterialId(mesh_index, index);
+        }
+
+        public static bool GetMeshMaterialIds(int mesh_index, int[] material_id, int count)
+        {
+            return ObjLoader_GetMeshMaterialIds(mesh_index, material_id, count);
+        }
+
+        public static bool SetMeshMaterialIds(int mesh_index, int[] material_id, int count, bool append = false)
+        {
+            return ObjLoader_SetMeshMaterialIds(mesh_index, material_id, count, append);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +159,9 @@ namespace XAtlasDotNet.Core
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int ObjLoader_GetMaterialCount();
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern void ObjLoader_AddShape();
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void ObjLoader_GetShape(int index, [Out] out Shape shape);
@@ -206,7 +224,13 @@ namespace XAtlasDotNet.Core
         //-----------------------------------MATERIALS------------------------------------------------------------------------//
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern int ObjLoader_GetMeshMaterail(int mesh_index, int index);
+        private static extern int ObjLoader_GetMeshMaterialId(int mesh_index, int index);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool ObjLoader_GetMeshMaterialIds(int mesh_index, [Out] int[] material_ids, int count);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern bool ObjLoader_SetMeshMaterialIds(int mesh_index, int[] material_ids, int count, bool append);
 
         //-------------------------------------------------------------------------------------------------------------------//
 
