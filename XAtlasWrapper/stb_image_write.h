@@ -256,7 +256,7 @@ int stbi_write_tga_with_rle = 1;
 int stbi_write_force_png_filter = -1;
 #endif
 
-static int stbi__flip_vertically_on_write = 0;
+static int stbi__flip_vertically_on_write = 1;
 
 STBIWDEF void stbi_flip_vertically_on_write(int flag)
 {

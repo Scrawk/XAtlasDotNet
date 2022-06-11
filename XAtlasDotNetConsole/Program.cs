@@ -4,8 +4,10 @@ using System.Runtime.InteropServices;
 
 using XAtlasDotNet.Core;
 
+
+string file = "gazebo";
 string dir = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
-string filename = dir + "Models/gazebo.obj";
+string filename = dir + "Models/" + file + ".obj";
 
 if(!ObjLoader.LoadObj(filename))
 {
@@ -18,6 +20,11 @@ else
 }
 
 int shape_count = ObjLoader.GetShapeCount();
+if (shape_count == 0)
+{
+    Console.WriteLine("No shapes have been created.");
+    return;
+}
 
 Shape shape;
 ObjLoader.GetShape(0, out shape);
@@ -28,20 +35,23 @@ XAtlas.Create();
 var add_mesh_success = XAtlas.AddMesh(0);
 Console.WriteLine("Added mesh = " + add_mesh_success);
 
-XAtlas.Generate();
+var o = PackOptions.Default;
+o.Resolution = 2048;
 
-//XAtlas.ComputeCharts(ChartOptions.Default);
-//XAtlas.PackCharts(PackOptions.Default);
+XAtlas.Generate(ChartOptions.Default, o);
 
 Console.WriteLine("Created atlas = " + XAtlas.GetAtlasParams());
 
-bool save_obj_success = XAtlas.SaveAllMeshsObj("example_mesh.obj");
+bool save_obj_success = XAtlas.SaveAllMeshsObj(file + "_mesh.obj");
 Console.WriteLine("save_obj_success = " + save_obj_success);
 
-bool save_chart_success = XAtlas.SaveChartImages("example_chart.tga");
+var background_color = new byte[] { 0, 0, 0 };
+var line_color = new byte[] { 255, 255, 255 };
+
+bool save_chart_success = XAtlas.SaveChartImages(file + "_chart.tga", background_color, line_color);
 Console.WriteLine("save_chart_success = " + save_chart_success);
 
-bool save_mesh_success = XAtlas.SaveMeshImages("example_tri.tga");
+bool save_mesh_success = XAtlas.SaveMeshImages(file + "_tri.tga", background_color, line_color);
 Console.WriteLine("save_mesh_success = " + save_mesh_success);
 
 ObjLoader.ClearBuffers();

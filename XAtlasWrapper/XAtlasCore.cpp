@@ -34,6 +34,11 @@ void XAtlas_Create()
 	atlas = xatlas::Create();
 }
 
+void XAtlas_SeedRand(int seed)
+{
+	SeedRand(seed);
+}
+
 xatlas::AddMeshError XAtlas_AddMesh(int index)
 {
 	auto mesh = ObjLoader_CreateMeshDecl(index);
@@ -69,9 +74,9 @@ xatlas::AddMeshError XAtlas_AddUVMesh(int index)
 	return xatlas::AddUvMesh(atlas, meshDecl);
 }
 
-void XAtlas_Generate()
+void XAtlas_Generate(const xatlas::ChartOptions& chart_options, const xatlas::PackOptions& pack_options)
 {
-	xatlas::Generate(atlas);
+	xatlas::Generate(atlas, chart_options, pack_options);
 }
 
 void XAtlas_ComputeCharts(const xatlas::ChartOptions& options)
@@ -202,9 +207,7 @@ BOOL XAtlas_SaveMeshObj(int index, const char* filename)
 	return TRUE;
 }
 
-
-
-BOOL XAtlas_SaveChartImages(const char* filename)
+BOOL XAtlas_SaveChartImages(const char* filename, const uint8_t* background_color, const uint8_t* line_color)
 {
 	if (atlas->width <= 0 || atlas->height <= 0)
 		return FALSE;
@@ -213,7 +216,13 @@ BOOL XAtlas_SaveChartImages(const char* filename)
 
 	const uint32_t imageDataSize = atlas->width * atlas->height * 3;
 	outputChartsImage.resize(atlas->atlasCount * imageDataSize);
-	const uint8_t white[] = { 255, 255, 255 };
+
+	for (int i = 0; i < imageDataSize / 3; i++)
+	{
+		outputChartsImage[i * 3 + 0] = background_color[0];
+		outputChartsImage[i * 3 + 1] = background_color[1];
+		outputChartsImage[i * 3 + 2] = background_color[2];
+	}
 
 	for (uint32_t i = 0; i < atlas->meshCount; i++)
 	{
@@ -246,7 +255,7 @@ BOOL XAtlas_SaveChartImages(const char* filename)
 				RasterizeTriangle(imageData, atlas->width, verts[0], verts[1], verts[2], color);
 
 				for (uint32_t l = 0; l < faceVertexCount; l++)
-					RasterizeLine(imageData, atlas->width, verts[l], verts[(l + 1) % faceVertexCount], white);
+					RasterizeLine(imageData, atlas->width, verts[l], verts[(l + 1) % faceVertexCount], line_color);
 			}
 		}
 	}
@@ -267,7 +276,7 @@ BOOL XAtlas_SaveChartImages(const char* filename)
 	return TRUE;
 }
 
-BOOL XAtlas_SaveMeshImages(const char* filename)
+BOOL XAtlas_SaveMeshImages(const char* filename, const uint8_t* background_color, const uint8_t* line_color)
 {
 	if (atlas->width <= 0 || atlas->height <= 0)
 		return FALSE;
@@ -277,12 +286,17 @@ BOOL XAtlas_SaveMeshImages(const char* filename)
 	const uint32_t imageDataSize = atlas->width * atlas->height * 3;
 	outputTrisImage.resize(atlas->atlasCount * imageDataSize);
 
+	for (int i = 0; i < imageDataSize / 3; i++)
+	{
+		outputTrisImage[i * 3 + 0] = background_color[0];
+		outputTrisImage[i * 3 + 1] = background_color[1];
+		outputTrisImage[i * 3 + 2] = background_color[2];
+	}
+
 	for (uint32_t i = 0; i < atlas->meshCount; i++)
 	{
 		const xatlas::Mesh& mesh = atlas->meshes[i];
 		// Rasterize mesh triangles.
-		const uint8_t white[] = { 255, 255, 255 };
-
 		const uint32_t faceCount = mesh.indexCount / 3;
 
 		uint32_t faceFirstIndex = 0;
@@ -311,7 +325,7 @@ BOOL XAtlas_SaveMeshImages(const char* filename)
 			RasterizeTriangle(imageData, atlas->width, verts[0], verts[1], verts[2], color);
 
 			for (uint32_t j = 0; j < faceVertexCount; j++)
-				RasterizeLine(imageData, atlas->width, verts[j], verts[(j + 1) % faceVertexCount], white);
+				RasterizeLine(imageData, atlas->width, verts[j], verts[(j + 1) % faceVertexCount], line_color);
 
 			faceFirstIndex += faceVertexCount;
 		}

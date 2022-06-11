@@ -3,6 +3,11 @@
 #include <vector>
 #include <iostream>
 
+static void SeedRand(int seed)
+{
+	srand(seed);
+}
+
 static void RandomColor(uint8_t* color)
 {
 	for (int i = 0; i < 3; i++)

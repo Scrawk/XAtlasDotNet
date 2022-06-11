@@ -39,7 +39,12 @@ namespace XAtlasDotNet.Core
 
         public static void Generate()
         {
-            XAtlas_Generate();
+            XAtlas_Generate(ChartOptions.Default, PackOptions.Default);
+        }
+
+        public static void Generate(ChartOptions chart_options, PackOptions pack_options)
+        {
+            XAtlas_Generate(chart_options, pack_options);
         }
 
         public static void ComputeCharts(ChartOptions options)
@@ -67,14 +72,14 @@ namespace XAtlasDotNet.Core
             return XAtlas_SaveMeshObj(index, filename);
         }
 
-        public static bool SaveChartImages(string filename)
+        public static bool SaveChartImages(string filename, byte[] background_color, byte[] line_color)
         {
-            return XAtlas_SaveChartImages(filename);
+            return XAtlas_SaveChartImages(filename, background_color, line_color);
         }
 
-        public static bool SaveMeshImages(string filename)
+        public static bool SaveMeshImages(string filename, byte[] background_color, byte[] line_color)
         {
-            return XAtlas_SaveMeshImages(filename);
+            return XAtlas_SaveMeshImages(filename, background_color, line_color);
         }
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
@@ -90,7 +95,7 @@ namespace XAtlasDotNet.Core
         private static extern MESH_ERROR XAtlas_AddUVMesh(int index);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern void XAtlas_Generate();
+        private static extern void XAtlas_Generate(ChartOptions chart_options, PackOptions pack_options);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void XAtlas_ComputeCharts(ChartOptions options);
@@ -108,9 +113,9 @@ namespace XAtlasDotNet.Core
         private static extern bool XAtlas_SaveMeshObj(int index, [MarshalAs(LPSTR)] string filename);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern bool XAtlas_SaveChartImages([MarshalAs(LPSTR)] string filename);
+        private static extern bool XAtlas_SaveChartImages([MarshalAs(LPSTR)] string filename, byte[] background_color, byte[] line_color);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern bool XAtlas_SaveMeshImages([MarshalAs(LPSTR)] string filename);
+        private static extern bool XAtlas_SaveMeshImages([MarshalAs(LPSTR)] string filename, byte[] background_color, byte[] line_color);
     }
 }

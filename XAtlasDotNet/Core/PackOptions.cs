@@ -45,9 +45,9 @@ namespace XAtlasDotNet.Core
 		public bool BruteForce = false;
 
 		/// <summary>
-		/// Create image
+		/// Create image for debugging.
 		/// </summary>
-		public bool CreateImage = false;
+		private bool CreateImage = false;
 
 		/// <summary>
 		/// Rotate charts to the axis of their convex hull.
