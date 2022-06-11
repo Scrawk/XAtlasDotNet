@@ -7290,11 +7290,15 @@ public:
 			}
 			if (m_type == ChartType::LSCM) {
 				XA_PROFILE_START(parameterizeChartsLSCM)
-				if (options.paramFunc) {
-					options.paramFunc(&m_unifiedMesh->position(0).x, &m_unifiedMesh->texcoord(0).x, m_unifiedMesh->vertexCount(), m_unifiedMesh->indices().data, m_unifiedMesh->indexCount());
-				}
-				else
+
+				//if (options.paramFunc) {
+				//	options.paramFunc(&m_unifiedMesh->position(0).x, &m_unifiedMesh->texcoord(0).x, m_unifiedMesh->vertexCount(), m_unifiedMesh->indices().data, m_unifiedMesh->indexCount());
+				//}
+				//else
+				{
 					computeLeastSquaresConformalMap(m_unifiedMesh);
+				}
+
 				XA_PROFILE_END(parameterizeChartsLSCM)
 				XA_PROFILE_START(parameterizeChartsEvaluateQuality)
 				m_quality.computeBoundaryIntersection(m_unifiedMesh, boundaryGrid);

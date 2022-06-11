@@ -168,11 +168,11 @@ struct UvMeshDecl
 AddMeshError AddUvMesh(Atlas *atlas, const UvMeshDecl &decl);
 
 // Custom parameterization function. texcoords initial values are an orthogonal parameterization.
-typedef void (*ParameterizeFunc)(const float *positions, float *texcoords, uint32_t vertexCount, const uint32_t *indices, uint32_t indexCount);
+//typedef void (*ParameterizeFunc)(const float *positions, float *texcoords, uint32_t vertexCount, const uint32_t *indices, uint32_t indexCount);
 
 struct ChartOptions
 {
-	ParameterizeFunc paramFunc = nullptr;
+	//ParameterizeFunc paramFunc = nullptr;
 
 	float maxChartArea = 0.0f; // Don't grow charts to be larger than this. 0 means no limit.
 	float maxBoundaryLength = 0.0f; // Don't grow charts to have a longer boundary than this. 0 means no limit.

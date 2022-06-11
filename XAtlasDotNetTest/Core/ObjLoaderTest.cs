@@ -109,7 +109,7 @@ namespace XAtlasDotNetTest.Core
         [TestMethod]
         public void GetIndice()
         {
-            int indices = shape.mesh.indices;
+            int indices = shape.Mesh.Indices;
 
             Assert.AreEqual(indices_test.Length / 3, indices);
 

@@ -4,29 +4,36 @@ using System.Runtime.InteropServices;
 
 using XAtlasDotNet.Core;
 
-
 string dir = "F:/Projects/Visual Studio Projects/XAtlasDotNet/";
-string filename = dir + "Models/elephant.obj";
+string filename = dir + "Models/gazebo.obj";
 
-bool load_success = ObjLoader.LoadObj(filename);
-Console.WriteLine("load_success = " + load_success);
+if(!ObjLoader.LoadObj(filename))
+{
+    Console.WriteLine("Failed to load obj file " + filename);
+    return;
+}
+else
+{
+    Console.WriteLine("Loaded obj file " + filename);
+}
 
 int shape_count = ObjLoader.GetShapeCount();
 
 Shape shape;
 ObjLoader.GetShape(0, out shape);
-
-Console.WriteLine("shape = " + shape);
-Console.WriteLine();
+Console.WriteLine("Created shape = " + shape);
 
 XAtlas.Create();
 
-var error_code = XAtlas.AddMesh(0);
-Console.WriteLine("Error code = " + error_code);
+var add_mesh_success = XAtlas.AddMesh(0);
+Console.WriteLine("Added mesh = " + add_mesh_success);
 
 XAtlas.Generate();
 
-Console.WriteLine(XAtlas.GetAtlasParams());
+//XAtlas.ComputeCharts(ChartOptions.Default);
+//XAtlas.PackCharts(PackOptions.Default);
+
+Console.WriteLine("Created atlas = " + XAtlas.GetAtlasParams());
 
 bool save_obj_success = XAtlas.SaveAllMeshsObj("example_mesh.obj");
 Console.WriteLine("save_obj_success = " + save_obj_success);

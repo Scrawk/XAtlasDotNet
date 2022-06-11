@@ -13,7 +13,13 @@ extern "C"
 
 	XATLAS_WRAPPER_API xatlas::AddMeshError XAtlas_AddMesh(int index);
 
+	XATLAS_WRAPPER_API xatlas::AddMeshError XAtlas_AddUVMesh(int index);
+
 	XATLAS_WRAPPER_API void XAtlas_Generate();
+
+	XATLAS_WRAPPER_API void XAtlas_ComputeCharts(const xatlas::ChartOptions& options);
+
+	XATLAS_WRAPPER_API void XAtlas_PackCharts(const xatlas::PackOptions& options);
 
 	XATLAS_WRAPPER_API AtlasParams XAtlas_GetAtlasParams();
 

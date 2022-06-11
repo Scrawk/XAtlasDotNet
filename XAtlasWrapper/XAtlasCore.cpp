@@ -1,6 +1,7 @@
 
 #include "XAtlasCore.h"
 #include "ObjLoader.h"
+#include "Rasterizer.h"
 #include "stb_image_write.h"
 
 #include <vector>
@@ -48,9 +49,39 @@ xatlas::AddMeshError XAtlas_AddMesh(int index)
 	return error_code;
 }
 
+xatlas::AddMeshError XAtlas_AddUVMesh(int index)
+{
+	auto shape = ObjLoader_GetShape(index);
+	if (shape == nullptr)
+		return xatlas::AddMeshError::Error;
+
+	const tinyobj::mesh_t& objMesh = shape->mesh;
+
+	xatlas::UvMeshDecl meshDecl;
+	meshDecl.faceMaterialData = (const uint32_t*)objMesh.material_ids.data();
+	meshDecl.vertexCount = (int)objMesh.texcoords.size() / 2;
+	meshDecl.vertexUvData = objMesh.texcoords.data();
+	meshDecl.vertexStride = sizeof(float) * 2;
+	meshDecl.indexCount = (int)objMesh.indices.size();
+	meshDecl.indexData = objMesh.indices.data();
+	meshDecl.indexFormat = xatlas::IndexFormat::UInt32;
+
+	return xatlas::AddUvMesh(atlas, meshDecl);
+}
+
 void XAtlas_Generate()
 {
 	xatlas::Generate(atlas);
+}
+
+void XAtlas_ComputeCharts(const xatlas::ChartOptions& options)
+{
+	xatlas::ComputeCharts(atlas, options);
+}
+
+void XAtlas_PackCharts(const xatlas::PackOptions& options)
+{
+	xatlas::PackCharts(atlas, options);
 }
 
 AtlasParams XAtlas_GetAtlasParams()
@@ -171,72 +202,7 @@ BOOL XAtlas_SaveMeshObj(int index, const char* filename)
 	return TRUE;
 }
 
-void RandomColor(uint8_t* color)
-{
-	for (int i = 0; i < 3; i++)
-		color[i] = uint8_t((rand() % 255 + 192) * 0.5f);
-}
 
-void SetPixel(uint8_t* dest, int destWidth, int x, int y, const uint8_t* color)
-{
-	uint8_t* pixel = &dest[x * 3 + y * (destWidth * 3)];
-	pixel[0] = color[0];
-	pixel[1] = color[1];
-	pixel[2] = color[2];
-}
-
-// https://github.com/miloyip/line/blob/master/line_bresenham.c
-// License: public domain.
-void RasterizeLine(uint8_t* dest, int destWidth, const int* p1, const int* p2, const uint8_t* color)
-{
-	const int dx = abs(p2[0] - p1[0]), sx = p1[0] < p2[0] ? 1 : -1;
-	const int dy = abs(p2[1] - p1[1]), sy = p1[1] < p2[1] ? 1 : -1;
-	int err = (dx > dy ? dx : -dy) / 2;
-	int current[2];
-	current[0] = p1[0];
-	current[1] = p1[1];
-	while (SetPixel(dest, destWidth, current[0], current[1], color), current[0] != p2[0] || current[1] != p2[1])
-	{
-		const int e2 = err;
-		if (e2 > -dx) { err -= dy; current[0] += sx; }
-		if (e2 < dy) { err += dx; current[1] += sy; }
-	}
-}
-
-/*
-https://github.com/ssloy/tinyrenderer/wiki/Lesson-2:-Triangle-rasterization-and-back-face-culling
-Copyright Dmitry V. Sokolov
-This software is provided 'as-is', without any express or implied warranty.
-In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it freely,
-subject to the following restrictions:
-1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software.
-If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
-*/
-static void RasterizeTriangle(uint8_t* dest, int destWidth, const int* t0, const int* t1, const int* t2, const uint8_t* color)
-{
-	if (t0[1] > t1[1]) std::swap(t0, t1);
-	if (t0[1] > t2[1]) std::swap(t0, t2);
-	if (t1[1] > t2[1]) std::swap(t1, t2);
-	int total_height = t2[1] - t0[1];
-	for (int i = 0; i < total_height; i++) {
-		bool second_half = i > t1[1] - t0[1] || t1[1] == t0[1];
-		int segment_height = second_half ? t2[1] - t1[1] : t1[1] - t0[1];
-		float alpha = (float)i / total_height;
-		float beta = (float)(i - (second_half ? t1[1] - t0[1] : 0)) / segment_height;
-		int A[2], B[2];
-		for (int j = 0; j < 2; j++) {
-			A[j] = int(t0[j] + (t2[j] - t0[j]) * alpha);
-			B[j] = int(second_half ? t1[j] + (t2[j] - t1[j]) * beta : t0[j] + (t1[j] - t0[j]) * beta);
-		}
-		if (A[0] > B[0]) std::swap(A, B);
-		for (int j = A[0]; j <= B[0]; j++)
-			SetPixel(dest, destWidth, j, t0[1] + i, color);
-	}
-}
 
 BOOL XAtlas_SaveChartImages(const char* filename)
 {

@@ -32,9 +32,24 @@ namespace XAtlasDotNet.Core
             return XAtlas_AddMesh(index);
         }
 
+        public static MESH_ERROR AddUVMesh(int index)
+        {
+            return XAtlas_AddUVMesh(index);
+        }
+
         public static void Generate()
         {
             XAtlas_Generate();
+        }
+
+        public static void ComputeCharts(ChartOptions options)
+        {
+            XAtlas_ComputeCharts(options);
+        }
+
+        public static void PackCharts(PackOptions options)
+        {
+            XAtlas_PackCharts(options); 
         }
 
         public static AtlasParams GetAtlasParams()
@@ -72,7 +87,16 @@ namespace XAtlasDotNet.Core
         private static extern MESH_ERROR XAtlas_AddMesh(int index);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern MESH_ERROR XAtlas_AddUVMesh(int index);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void XAtlas_Generate();
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern void XAtlas_ComputeCharts(ChartOptions options);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern void XAtlas_PackCharts(PackOptions options);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern AtlasParams XAtlas_GetAtlasParams();
