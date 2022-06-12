@@ -3,3 +3,7 @@ A C# wrapper around the c++ [xatlas](https://github.com/jpcy/xatlas) project use
 
 ![gazebo](https://github.com/Scrawk/XAtlasDotNet/blob/master/Media/gazebo_mesh.png)
 
+![charts](https://github.com/Scrawk/XAtlasDotNet/blob/master/Media/gazebo_chart.png)
+
+![tris](https://github.com/Scrawk/XAtlasDotNet/blob/master/Media/gazebo_tri.png);
+
