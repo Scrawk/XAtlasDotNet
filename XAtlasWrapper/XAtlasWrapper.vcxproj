@@ -158,9 +158,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rasterizer.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="stb_image_resize.h" />
     <ClInclude Include="stb_image_write.h" />
-    <ClInclude Include="stl_reader.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="xatlas.h" />
@@ -177,7 +175,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stb_image.c" />
-    <ClCompile Include="stb_image_resize.c" />
     <ClCompile Include="stb_image_write.c" />
     <ClCompile Include="tiny_obj_loader.cpp" />
     <ClCompile Include="xatlas.cpp" />
