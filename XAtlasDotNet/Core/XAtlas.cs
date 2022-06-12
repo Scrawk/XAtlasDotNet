@@ -82,6 +82,120 @@ namespace XAtlasDotNet.Core
             return XAtlas_SaveMeshImages(filename, background_color, line_color);
         }
 
+        public static MESH_ERROR Run(string input_filename, string output_filename)
+        {
+            return Run(input_filename, output_filename, ChartOptions.Default, PackOptions.Default);
+        }
+
+        public static MESH_ERROR Run(MeshDes input_mesh, string output_filename)
+        {
+            return Run(input_mesh, output_filename, ChartOptions.Default, PackOptions.Default);
+        }
+
+        public static MESH_ERROR Run(MeshDes input_mesh, out MeshDes output_mesh)
+        {
+            return Run(input_mesh, out output_mesh, ChartOptions.Default, PackOptions.Default);
+        }
+
+        public static MESH_ERROR Run(string input_filename, string output_filename, ChartOptions chart_options, PackOptions pack_options)
+        {
+            if (!ObjLoader.LoadObj(input_filename))
+                return MESH_ERROR.FAILED_TO_LOAD;
+
+            Create();
+
+            var add_mesh_success = AddMesh(0);
+            if (add_mesh_success != MESH_ERROR.SUCCESS)
+                return MESH_ERROR.FALIED_TO_ADD_MESH;
+
+            Generate(chart_options, pack_options);
+
+            bool save_obj_success = SaveAllMeshsObj(output_filename);
+            if (!save_obj_success)
+                return MESH_ERROR.FALIED_TO_SAVE_IMAGE;
+
+            ObjLoader.ClearBuffers();
+            Destroy();
+
+            return MESH_ERROR.SUCCESS;
+        }
+
+        public static MESH_ERROR Run(MeshDes input_mesh, string output_filename, ChartOptions chart_options, PackOptions pack_options)
+        {
+
+            ObjLoader.AddShape();
+
+            if(input_mesh.PositionsCount != 0)
+                ObjLoader.SetMeshPositions(0, input_mesh.Positions, input_mesh.PositionsCount);
+
+            if (input_mesh.NormalsCount != 0)
+                ObjLoader.SetMeshNormals(0, input_mesh.Normals, input_mesh.NormalsCount);
+
+            if (input_mesh.TexcoordsCount != 0)
+                ObjLoader.SetMeshIndices(0, input_mesh.Indices, input_mesh.IndicesCount);
+
+            Create();
+
+            var add_mesh_success = AddMesh(0);
+            if (add_mesh_success != MESH_ERROR.SUCCESS)
+                return MESH_ERROR.FALIED_TO_ADD_MESH;
+
+            Generate(chart_options, pack_options);
+
+            bool save_obj_success = SaveAllMeshsObj(output_filename);
+            if (!save_obj_success)
+                return MESH_ERROR.FALIED_TO_SAVE_IMAGE;
+
+            ObjLoader.ClearBuffers();
+            Destroy();
+
+            return MESH_ERROR.SUCCESS;
+        }
+
+        public static MESH_ERROR Run(MeshDes input_mesh, out MeshDes output_mesh, ChartOptions chart_options, PackOptions pack_options)
+        {
+            output_mesh = null;
+            ObjLoader.AddShape();
+
+            if (input_mesh.PositionsCount != 0)
+                ObjLoader.SetMeshPositions(0, input_mesh.Positions, input_mesh.PositionsCount);
+
+            if (input_mesh.NormalsCount != 0)
+                ObjLoader.SetMeshNormals(0, input_mesh.Normals, input_mesh.NormalsCount);
+
+            if (input_mesh.TexcoordsCount != 0)
+                ObjLoader.SetMeshIndices(0, input_mesh.Indices, input_mesh.IndicesCount);
+
+            Create();
+
+            var add_mesh_success = AddMesh(0);
+            if (add_mesh_success != MESH_ERROR.SUCCESS)
+                return MESH_ERROR.FALIED_TO_ADD_MESH;
+
+            Generate(chart_options, pack_options);
+
+            ObjLoader.GetShape(0, out Shape shape);
+
+            output_mesh = new MeshDes();
+
+            input_mesh.Positions = new float[shape.Mesh.Positions];
+            ObjLoader.GetMeshPositions(0, input_mesh.Positions, input_mesh.Positions.Length);
+
+            input_mesh.Normals = new float[shape.Mesh.Normals];
+            ObjLoader.GetMeshNormals(0, input_mesh.Normals, input_mesh.Normals.Length);
+
+            input_mesh.Texcoords = new float[shape.Mesh.Texcoords];
+            ObjLoader.GetMeshTexcoords(0, input_mesh.Texcoords, input_mesh.Texcoords.Length);
+
+            input_mesh.Indices = new uint[shape.Mesh.Indices];
+            ObjLoader.GetMeshIndices(0, input_mesh.Indices, input_mesh.Indices.Length);
+
+            ObjLoader.ClearBuffers();
+            Destroy();
+
+            return MESH_ERROR.SUCCESS;
+        }
+
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern void XAtlas_Destroy();
 
